@@ -1,0 +1,38 @@
+Vagrant.configure("2") do |config|
+
+    config.vm.define "node1" do |node1|
+        node1.vm.box="venceslav_dimitrov/debian-11"
+        node1.vm.hostname = "node-1.k8s"
+        node1.vm.network "private_network", ip: "192.168.56.211"
+        node1.vm.provision "shell", path: "other-steps.sh"
+        node1.vm.provision "shell", path: "cluster-initialisation.sh"
+        node1.vm.provider :virtualbox do |vb|
+            vb.customize ["modifyvm", :id, "--memory", "2048"]
+            vb.customize ["modifyvm", :id, "--cpus", "2"]
+			vb.name = "Debian11_HOST1"
+        end
+    end
+	
+    config.vm.define "node2" do |node2|
+        node2.vm.box="venceslav_dimitrov/debian-11"
+        node2.vm.hostname = "node-2.k8s"
+        node2.vm.network "private_network", ip: "192.168.56.212"
+        node2.vm.provision "shell", path: "other-steps.sh"
+        node2.vm.provider :virtualbox do |vb|
+            vb.customize ["modifyvm", :id, "--memory", "2048"]
+			vb.name = "Debian11_HOST2"
+        end
+    end
+	
+    config.vm.define "node3" do |node3|
+        node3.vm.box="venceslav_dimitrov/debian-11"
+        node3.vm.hostname = "node-3.k8s"
+        node3.vm.network "private_network", ip: "192.168.56.213"
+        node3.vm.provision "shell", path: "other-steps.sh"
+        node3.vm.provider :virtualbox do |vb|
+            vb.customize ["modifyvm", :id, "--memory", "2048"]
+			vb.name = "Debian11_HOST3"
+        end
+    end
+  
+  end

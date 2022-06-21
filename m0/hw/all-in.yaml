@@ -1,0 +1,58 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: homework
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    purpose: homework
+  labels:
+    app: hw
+  name: homework-1
+  namespace: homework
+spec:
+  containers:
+  - name: hw-container
+    image: shekeriev/k8s-oracle
+    ports:
+    - containerPort: 5000
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    purpose: homework
+  labels:
+    app: hw
+  name: homework-2
+  namespace: homework
+spec:
+  containers:
+  - name: hw-container
+    image: shekeriev/k8s-oracle
+    ports:
+    - containerPort: 5000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    purpose: homework
+  name: homework-svc
+  labels:
+    app: hw
+  namespace: homework
+spec:
+  type: NodePort
+  selector:
+    app: hw
+  ports:
+    - protocol: TCP
+      port: 5000
+      nodePort: 32000
+
+
